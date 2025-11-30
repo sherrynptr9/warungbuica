@@ -17,19 +17,26 @@ class TransactionDetail extends Model
         'price',
     ];
 
-    protected $casts = [
-        'price' => 'decimal:2',
-    ];
+    // --- LOGIKA OTOMATIS POTONG STOK ---
+    protected static function booted(): void
+    {
+        // Jalankan saat detail transaksi DIBUAT
+        static::created(function (TransactionDetail $detail) {
+            // Cari produknya, lalu kurangi stok (nama kolom 'stock' sesuaikan dengan database kamu)
+            $detail->product()->decrement('stock', $detail->quantity);
+        });
 
-    // --- RELASI ---
+        // (Opsional) Jalankan saat transaksi DIHAPUS (Stok balik lagi)
+        static::deleted(function (TransactionDetail $detail) {
+             $detail->product()->increment('stock', $detail->quantity);
+        });
+    }
 
-    // Detail ini milik satu Transaksi (Header)
     public function transaction(): BelongsTo
     {
         return $this->belongsTo(Transaction::class);
     }
 
-    // Detail ini merujuk ke satu Produk
     public function product(): BelongsTo
     {
         return $this->belongsTo(Product::class);

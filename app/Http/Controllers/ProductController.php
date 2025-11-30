@@ -10,12 +10,23 @@ class ProductController extends Controller
     /**
      * Menampilkan halaman katalog produk.
      */
-    public function index()
-    {
-        // Ambil semua produk, urutkan dari yang terbaru
-        $products = Product::latest()->get();
+    
 
-        // Kirim data produk ke view 'products.index'
-        return view('products.index', compact('products'));
+    public function index(Request $request)
+{
+    $products = Product::query();
+
+    if ($request->search) {
+        $products->where('name', 'like', "%{$request->search}%");
     }
+
+    if ($request->category) {
+        $products->where('category', $request->category);
+    }
+
+    $products = $products->paginate(12); // ← WAJIB pakai paginate, bukan get()
+
+    return view('products.index', compact('products'));
+}
+
 }

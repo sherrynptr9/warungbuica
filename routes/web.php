@@ -11,47 +11,39 @@ use App\Http\Controllers\Auth\KasirLoginController;
 |--------------------------------------------------------------------------
 */
 
-// ========================================================================
-// 1. RUTE CUSTOMER & KATALOG (HOME)
-// ========================================================================
+Route::middleware('auth')->group(function () {
 
-// Halaman Depan (Katalog) - Tujuan redirect setelah login
-Route::get('/', [ProductController::class, 'index'])->name('home');
+    // Home / Katalog
+    Route::get('/', [ProductController::class, 'index'])->name('home');
 
-// Keranjang & Transaksi
-Route::get('/cart', [FrontendTransactionController::class, 'index'])->name('cart.index');
-Route::post('/cart/add/{id}', [FrontendTransactionController::class, 'addToCart'])->name('cart.add');
-Route::get('/cart/decrease/{id}', [FrontendTransactionController::class, 'decreaseQuantity'])->name('cart.decrease');
-Route::get('/cart/remove/{id}', [FrontendTransactionController::class, 'removeFromCart'])->name('cart.remove');
+    // Cart Routes
+    Route::get('/cart', [FrontendTransactionController::class, 'index'])->name('cart.index');
+    
+    // --- PERBAIKAN DISINI ---
+    // Ubah dari 'post' menjadi 'get'
+    Route::post('/cart/add/{id}', [FrontendTransactionController::class, 'addToCart'])->name('cart.add');
+    // ------------------------
 
-// Checkout
-Route::get('/checkout', [FrontendTransactionController::class, 'checkoutPage'])->name('checkout.index');
-Route::post('/checkout', [FrontendTransactionController::class, 'checkout'])->name('checkout');
+    Route::get('/cart/decrease/{id}', [FrontendTransactionController::class, 'decreaseQuantity'])->name('cart.decrease');
+    Route::get('/cart/remove/{id}', [FrontendTransactionController::class, 'removeFromCart'])->name('cart.remove');
 
-// Redirect Login default (misal user ketik /login manual)
-// Gunakan Route::redirect agar tidak pakai Closure
-Route::redirect('/login', '/admin/login')->name('login');
+    // Checkout
+    Route::get('/checkout', [FrontendTransactionController::class, 'checkoutPage'])->name('checkout.index'); // Halaman Checkout
+    Route::post('/checkout', [FrontendTransactionController::class, 'checkout'])->name('checkout'); // Proses Submit (Tetap POST)
+});
 
+// Redirect /login → /kasir/login
+Route::redirect('/login', '/kasir/login')->name('login');
 
-// ========================================================================
-// 2. RUTE KHUSUS KASIR
-// ========================================================================
-
-// A. Belum Login (Guest)
+// ... (Sisa kode ke bawah biarkan saja)
 Route::middleware('guest')->group(function () {
     Route::get('/kasir/login', [KasirLoginController::class, 'index'])->name('kasir.login');
     Route::post('/kasir/login', [KasirLoginController::class, 'authenticate'])->name('kasir.authenticate');
 });
 
-// B. Sudah Login (Auth)
 Route::middleware('auth')->group(function () {
     Route::post('/kasir/logout', [KasirLoginController::class, 'logout'])->name('kasir.logout');
-
-    // Tambahkan ini di web.php (di dalam middleware auth)
-Route::get('/kasir/dashboard', function() {
-    return redirect()->route('home'); // Balikin lagi ke home aja
-})->name('kasir.dashboard');
-    
-    // Saya HAPUS route '/kasir/dashboard' karena kamu redirect ke 'home'
-    // Ini juga menghilangkan penyebab error "Closure" tadi.
+    Route::get('/kasir/dashboard', function () {
+        return redirect()->route('home');
+    })->name('kasir.dashboard');
 });

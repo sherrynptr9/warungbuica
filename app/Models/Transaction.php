@@ -21,7 +21,18 @@ class Transaction extends Model
         'total_amount' => 'decimal:2',
     ];
 
-    // --- RELASI ---
+    protected static function booted(): void
+    {
+        static::created(function (Transaction $transaction) {
+            FinancialRecord::create([
+                'date' => $transaction->created_at,
+                'amount' => $transaction->total_amount,
+                'type' => 'income',
+                'description' => 'Pendapatan Transaksi #' . $transaction->id,
+                'user_id' => $transaction->user_id,
+            ]);
+        });
+    }
 
     // Transaksi milik satu User (Kasir)
     public function user(): BelongsTo
@@ -35,4 +46,6 @@ class Transaction extends Model
     {
         return $this->hasMany(TransactionDetail::class);
     }
+
+
 }

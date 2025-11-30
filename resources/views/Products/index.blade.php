@@ -3,273 +3,219 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Warung Bu Ica - Belanja Mudah & Terjangkau</title>
+    <title>Warung Bu Ica - Belanja Praktis & Terjangkau</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
-        
-        :root {
-            --primary: #1e40af;
-            --primary-dark: #1e3a8a;
-            --secondary: #059669;
-            --accent: #f59e0b;
-        }
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap');
         
         body {
-            font-family: 'Inter', sans-serif;
-            background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
-            min-height: 100vh;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background: #fafafa;
         }
         
-        .gradient-header {
-            background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary) 50%, #3b82f6 100%);
-            position: relative;
-            overflow: hidden;
-        }
-        
-        .gradient-header::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.03'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+        .navbar {
+            backdrop-filter: blur(20px);
+            background: rgba(255, 255, 255, 0.95);
+            border-bottom: 1px solid rgba(0, 0, 0, 0.08);
         }
         
         .product-card {
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
             background: white;
-            border-radius: 16px;
-            overflow: hidden;
+            border: 1px solid #f0f0f0;
+            transition: all 0.3s ease;
         }
         
         .product-card:hover {
-            transform: translateY(-8px) scale(1.02);
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.15);
-        }
-        
-        .product-image {
-            transition: transform 0.6s ease;
-        }
-        
-        .product-card:hover .product-image {
-            transform: scale(1.1);
+            border-color: #3b82f6;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
         }
         
         .category-btn {
-            transition: all 0.3s ease;
-            border: 2px solid transparent;
+            background: white;
+            border: 1px solid #e5e5e5;
+            transition: all 0.2s ease;
         }
         
         .category-btn.active {
-            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            background: #1f2937;
             color: white;
-            border-color: var(--primary);
-            box-shadow: 0 4px 12px rgba(30, 64, 175, 0.3);
+            border-color: #1f2937;
         }
         
         .search-box {
-            transition: all 0.3s ease;
             background: white;
+            border: 1px solid #e5e5e5;
+            transition: all 0.3s ease;
         }
         
         .search-box:focus-within {
-            box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.15);
-            transform: translateY(-2px);
+            border-color: #3b82f6;
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
         }
         
-        .cart-pulse {
-            animation: pulse 2s infinite;
-            position: relative;
+        .cart-indicator {
+            background: #ef4444;
+            animation: ping 2s cubic-bezier(0, 0, 0.2, 1) infinite;
         }
         
-        @keyframes pulse {
-            0% {
-                box-shadow: 0 0 0 0 rgba(59, 130, 246, 0.7);
-            }
-            70% {
-                box-shadow: 0 0 0 10px rgba(59, 130, 246, 0);
-            }
-            100% {
-                box-shadow: 0 0 0 0 rgba(59, 130, 246, 0);
+        @keyframes ping {
+            75%, 100% {
+                transform: scale(1.5);
+                opacity: 0;
             }
         }
         
         .sticky-cart {
-            position: fixed;
-            bottom: 24px;
-            left: 50%;
-            transform: translateX(-50%);
-            z-index: 100;
-            animation: slideUp 0.5s ease-out;
+            background: white;
+            box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.1);
         }
         
-        @keyframes slideUp {
-            from {
-                opacity: 0;
-                transform: translateX(-50%) translateY(20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateX(-50%) translateY(0);
-            }
+        .footer {
+            background: #1f2937;
+        }
+        
+        .price {
+            color: #059669;
+        }
+        
+        .stock-low {
+            color: #dc2626;
+        }
+        
+        .stock-medium {
+            color: #d97706;
+        }
+        
+        .stock-high {
+            color: #059669;
+        }
+        
+        .btn-primary {
+            background: #1f2937;
+            color: white;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-primary:hover {
+            background: #374151;
+            transform: translateY(-1px);
+        }
+        
+        .btn-secondary {
+            background: #3b82f6;
+            color: white;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-secondary:hover {
+            background: #2563eb;
+            transform: translateY(-1px);
+        }
+        
+        .notification {
+            background: white;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+            border-left: 4px solid;
+        }
+        
+        .notification.success {
+            border-left-color: #10b981;
+        }
+        
+        .notification.error {
+            border-left-color: #ef4444;
         }
         
         .empty-state {
-            background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
-            border: 2px dashed #e2e8f0;
+            background: white;
+            border: 2px dashed #e5e5e5;
         }
         
-        .price-tag {
-            background: linear-gradient(135deg, var(--secondary) 0%, #10b981 100%);
+        .pagination-btn {
+            background: white;
+            border: 1px solid #e5e5e5;
+            transition: all 0.2s ease;
+        }
+        
+        .pagination-btn:hover {
+            border-color: #3b82f6;
+            color: #3b82f6;
+        }
+        
+        .pagination-btn.active {
+            background: #3b82f6;
+            color: white;
+            border-color: #3b82f6;
+        }
+        
+        .hero {
+            background: linear-gradient(135deg, #1f2937 0%, #374151 100%);
+        }
+        
+        .gradient-text {
+            background: linear-gradient(135deg, #1f2937 0%, #6b7280 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-        
-        .stock-badge {
-            position: absolute;
-            top: 12px;
-            left: 12px;
-            z-index: 10;
-            font-size: 0.75rem;
-            font-weight: 700;
-            padding: 4px 10px;
-            border-radius: 20px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-        }
-        
-        .loading-spinner {
-            animation: spin 1s linear infinite;
-        }
-        
-        @keyframes spin {
-            from { transform: rotate(0deg); }
-            to { transform: rotate(360deg); }
-        }
-        
-        .hero-section {
-            background: linear-gradient(135deg, rgba(30, 64, 175, 0.9) 0%, rgba(59, 130, 246, 0.8) 100%), url('https://images.unsplash.com/photo-1560472354-b33ff0c44a43?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80');
-            background-size: cover;
-            background-position: center;
-            border-radius: 20px;
-            margin: 20px auto;
-            padding: 60px 40px;
-            color: white;
-            text-align: center;
-        }
-        
-        .floating-action {
-            animation: float 3s ease-in-out infinite;
-        }
-        
-        @keyframes float {
-            0%, 100% { transform: translateY(0px); }
-            50% { transform: translateY(-10px); }
-        }
-        
-        .footer-gradient {
-            background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
-        }
-        
-        .footer-wave {
-            position: relative;
-            overflow: hidden;
-        }
-        
-        .footer-wave::before {
-            content: '';
-            position: absolute;
-            top: -10px;
-            left: 0;
-            right: 0;
-            height: 20px;
-            background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1200 120' preserveAspectRatio='none'%3E%3Cpath d='M321.39,56.44c58-10.79,114.16-30.13,172-41.86,82.39-16.72,168.19-17.73,250.45-.39C823.78,31,906.67,72,985.66,92.83c70.05,18.48,146.53,26.09,214.34,3V0H0V27.35A600.21,600.21,0,0,0,321.39,56.44Z' fill='%23ffffff'%3E%3C/path%3E%3C/svg%3E");
-            background-size: cover;
-            background-position: center;
-        }
-        
-        .notification-toast {
-            position: fixed;
-            top: 100px;
-            right: 20px;
-            z-index: 1000;
-            animation: slideInRight 0.5s ease-out;
-        }
-        
-        @keyframes slideInRight {
-            from {
-                opacity: 0;
-                transform: translateX(100%);
-            }
-            to {
-                opacity: 1;
-                transform: translateX(0);
-            }
         }
     </style>
 </head>
-<body class="bg-gray-50 font-sans">
+<body class="min-h-screen flex flex-col">
 
-    <!-- Header yang Ditingkatkan -->
-    <header class="gradient-header text-white shadow-2xl sticky top-0 z-50">
-        <div class="container mx-auto px-4 py-4 relative z-10">
-            <div class="flex justify-between items-center">
-                <div class="flex items-center gap-4">
-                    <a href="{{ route('home') }}" class="flex items-center gap-4 hover:opacity-90 transition-opacity">
-                        <div class="bg-white p-3 rounded-2xl shadow-lg floating-action">
-                            <i class="fas fa-store text-2xl" style="background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent;"></i>
-                        </div>
-                        <div>
-                            <h1 class="text-3xl font-bold">Warung Bu Ica</h1>
-                            <p class="text-blue-100 text-sm font-medium">Belanja mudah, harga terjangkau</p>
-                        </div>
-                    </a>
+    <!-- Header -->
+    <header class="navbar sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <!-- Logo -->
+                <div class="flex items-center space-x-3">
+                    <div class="w-10 h-10 bg-gray-900 rounded-lg flex items-center justify-center">
+                        <i class="fas fa-store text-white text-lg"></i>
+                    </div>
+                    <div>
+                        <h1 class="text-xl font-bold text-gray-900">Warung Bu Ica</h1>
+                        <p class="text-xs text-gray-500">Belanja praktis & terjangkau</p>
+                    </div>
                 </div>
 
-                <div class="flex items-center gap-6">
-                    <a href="{{ route('cart.index') }}" class="relative group">
-                        <div class="bg-white/20 p-3 rounded-2xl cart-pulse transition-all duration-300 group-hover:bg-white/30 group-hover:scale-110">
-                            <i class="fas fa-shopping-cart text-xl"></i>
-                        </div>
+                <!-- Navigation -->
+                <div class="flex items-center space-x-4">
+                    <!-- Cart -->
+                    <a href="{{ route('cart.index') }}" class="relative p-2 text-gray-600 hover:text-gray-900 transition-colors">
+                        <i class="fas fa-shopping-cart text-xl"></i>
                         @if(session('cart'))
-                            <span class="absolute -top-2 -right-2 bg-red-500 text-white text-xs font-bold rounded-full h-6 w-6 flex items-center justify-center shadow-lg">
+                            <span class="cart-indicator absolute -top-1 -right-1 w-3 h-3 rounded-full"></span>
+                            <span class="absolute -top-2 -right-2 bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center font-medium">
                                 {{ count(session('cart')) }}
                             </span>
                         @endif
                     </a>
 
-                    <div class="flex items-center gap-4 border-l pl-6 border-blue-400">
+                    <!-- Auth -->
+                    <div class="flex items-center space-x-3">
                         @guest
-                            <a href="{{ route('kasir.login') }}" class="bg-white/20 hover:bg-white/30 py-3 px-5 rounded-xl transition-all duration-300 flex items-center gap-3 font-semibold hover:shadow-lg">
-                                <i class="fas fa-sign-in-alt"></i> 
-                                <span>Login Kasir</span>
+                            <a href="{{ route('kasir.login') }}" class="btn-primary px-4 py-2 rounded-lg text-sm font-medium">
+                                <i class="fas fa-sign-in-alt mr-2"></i>Login Kasir
                             </a>
                         @else
                             @if(Auth::user()->role === 'kasir')
-                                <div class="flex items-center gap-4">
-                                    <div class="bg-white/20 p-3 rounded-xl">
-                                        <i class="fas fa-user-check"></i>
+                                <div class="flex items-center space-x-3 bg-gray-50 px-3 py-2 rounded-lg">
+                                    <div class="w-8 h-8 bg-gray-200 rounded-full flex items-center justify-center">
+                                        <i class="fas fa-user text-gray-600"></i>
                                     </div>
-                                    <div>
-                                        <p class="font-bold">{{ Auth::user()->name }}</p>
-                                        <p class="text-blue-200 text-sm">Kasir</p>
+                                    <div class="text-sm">
+                                        <p class="font-medium text-gray-900">{{ Auth::user()->name }}</p>
+                                        <p class="text-gray-500">Kasir</p>
                                     </div>
+                                    <form action="{{ route('kasir.logout') }}" method="POST">
+                                        @csrf
+                                        <button type="submit" class="text-gray-400 hover:text-gray-600 transition-colors">
+                                            <i class="fas fa-sign-out-alt"></i>
+                                        </button>
+                                    </form>
                                 </div>
-                                
-                                <form action="{{ route('kasir.logout') }}" method="POST" class="inline">
-                                    @csrf
-                                    <button type="submit" class="text-white hover:text-red-200 font-medium p-3 rounded-xl hover:bg-white/10 transition-all duration-300" onclick="return confirm('Yakin ingin keluar?')">
-                                        <i class="fas fa-sign-out-alt text-lg"></i>
-                                    </button>
-                                </form>
                             @else
-                                <a href="/admin" class="bg-white text-blue-600 hover:bg-blue-50 py-3 px-5 rounded-xl transition-all duration-300 flex items-center gap-3 font-semibold shadow-lg hover:shadow-xl">
-                                    <i class="fas fa-cogs"></i> 
-                                    <span>Panel Admin</span>
+                                <a href="/admin" class="btn-secondary px-4 py-2 rounded-lg text-sm font-medium">
+                                    <i class="fas fa-cogs mr-2"></i>Panel Admin
                                 </a>
                             @endif
                         @endguest
@@ -279,53 +225,27 @@
         </div>
     </header>
 
-    <!-- Hero Section -->
-    <div class="container mx-auto px-4 mt-6">
-        <div class="hero-section">
-            <h2 class="text-4xl md:text-5xl font-bold mb-4">Selamat Datang di Warung Bu Ica</h2>
-            <p class="text-xl text-blue-100 mb-6 max-w-2xl mx-auto">Temukan berbagai kebutuhan harian dengan kualitas terbaik dan harga terjangkau</p>
-            <div class="flex flex-wrap justify-center gap-4">
-                <div class="bg-white/20 backdrop-blur-sm rounded-xl p-4 text-center">
-                    <i class="fas fa-shipping-fast text-2xl mb-2"></i>
-                    <p class="font-semibold">Gratis Ongkir</p>
-                </div>
-                <div class="bg-white/20 backdrop-blur-sm rounded-xl p-4 text-center">
-                    <i class="fas fa-award text-2xl mb-2"></i>
-                    <p class="font-semibold">Kualitas Terjamin</p>
-                </div>
-                <div class="bg-white/20 backdrop-blur-sm rounded-xl p-4 text-center">
-                    <i class="fas fa-clock text-2xl mb-2"></i>
-                    <p class="font-semibold">Buka 24/7</p>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Notifikasi -->
-    <div class="container mx-auto px-4 mt-6">
+    <!-- Notifications -->
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-4">
         @if(session('success'))
-            <div class="bg-green-50 border-l-4 border-green-500 p-4 rounded-xl shadow-lg mb-6">
+            <div class="notification success rounded-lg p-4 mb-4">
                 <div class="flex items-center">
-                    <div class="flex-shrink-0">
-                        <i class="fas fa-check-circle text-green-500 text-2xl"></i>
-                    </div>
-                    <div class="ml-4">
-                        <p class="text-green-800 font-bold text-lg">Berhasil!</p>
-                        <p class="text-green-700 mt-1">{{ session('success') }}</p>
+                    <i class="fas fa-check-circle text-green-500 text-lg mr-3"></i>
+                    <div>
+                        <p class="font-medium text-gray-900">Berhasil</p>
+                        <p class="text-gray-600 text-sm mt-1">{{ session('success') }}</p>
                     </div>
                 </div>
             </div>
         @endif
         
         @if($errors->any())
-            <div class="bg-red-50 border-l-4 border-red-500 p-4 rounded-xl shadow-lg mb-6">
+            <div class="notification error rounded-lg p-4 mb-4">
                 <div class="flex items-center">
-                    <div class="flex-shrink-0">
-                        <i class="fas fa-exclamation-triangle text-red-500 text-2xl"></i>
-                    </div>
-                    <div class="ml-4">
-                        <p class="text-red-800 font-bold text-lg">Terjadi Kesalahan!</p>
-                        <ul class="list-disc list-inside text-red-700 mt-2 space-y-1">
+                    <i class="fas fa-exclamation-triangle text-red-500 text-lg mr-3"></i>
+                    <div>
+                        <p class="font-medium text-gray-900">Terjadi Kesalahan</p>
+                        <ul class="text-gray-600 text-sm mt-1 list-disc list-inside">
                             @foreach ($errors->all() as $error)
                                 <li>{{ $error }}</li>
                             @endforeach
@@ -336,135 +256,153 @@
         @endif
     </div>
 
-    <!-- Konten Utama -->
-    <main class="container mx-auto px-4 py-8">
-        <!-- Header dengan Pencarian dan Filter -->
-        <div class="flex flex-col lg:flex-row justify-between items-start lg:items-center mb-10 gap-6">
-            <div class="text-center lg:text-left">
-                <h2 class="text-4xl font-bold text-gray-900 bg-gradient-to-r from-gray-900 to-gray-700 bg-clip-text text-transparent">Katalog Produk</h2>
-                <p class="text-gray-600 mt-3 text-lg">Temukan kebutuhan harian dengan mudah dan cepat</p>
-            </div>
-            
-            <div class="w-full lg:w-auto flex flex-col sm:flex-row gap-4">
-                <!-- Pencarian -->
-                <div class="relative search-box rounded-2xl shadow-sm">
-                    <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-                        <i class="fas fa-search text-gray-400 text-lg"></i>
+    <!-- Main Content -->
+    <main class="flex-1">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+            <!-- Hero Section -->
+            <div class="hero rounded-2xl p-8 mb-8 text-white">
+                <div class="max-w-2xl">
+                    <h2 class="text-4xl font-bold mb-4">Selamat Datang di Warung Bu Ica</h2>
+                    <p class="text-gray-300 text-lg mb-6">Temukan berbagai kebutuhan harian dengan kualitas terbaik dan harga terjangkau. Belanja jadi lebih mudah dan praktis.</p>
+                    <div class="flex flex-wrap gap-4">
+                        <div class="flex items-center space-x-2 bg-white/10 px-4 py-2 rounded-lg">
+                            <i class="fas fa-shipping-fast"></i>
+                            <span class="text-sm">Gratis Ongkir</span>
+                        </div>
+                        <div class="flex items-center space-x-2 bg-white/10 px-4 py-2 rounded-lg">
+                            <i class="fas fa-award"></i>
+                            <span class="text-sm">Kualitas Terjamin</span>
+                        </div>
+                        <div class="flex items-center space-x-2 bg-white/10 px-4 py-2 rounded-lg">
+                            <i class="fas fa-clock"></i>
+                            <span class="text-sm">Buka 24/7</span>
+                        </div>
                     </div>
-                    <input type="text" id="searchInput" placeholder="Cari produk..." class="pl-12 pr-6 py-4 w-full lg:w-80 rounded-2xl border-0 focus:outline-none focus:ring-0 text-gray-700 placeholder-gray-400">
+                </div>
+            </div>
+
+            <!-- Page Header -->
+            <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between mb-8">
+                <div class="mb-4 lg:mb-0">
+                    <h2 class="text-3xl font-bold gradient-text">Katalog Produk</h2>
+                    <p class="text-gray-600 mt-2">Temukan produk yang Anda butuhkan</p>
                 </div>
                 
-                <!-- Filter Kategori -->
-                <div class="flex gap-3 overflow-x-auto pb-2 scrollbar-hide">
-                    <button class="category-btn active bg-white text-gray-700 px-5 py-3 rounded-xl font-semibold whitespace-nowrap shadow-sm">Semua Produk</button>
-                    <button class="category-btn bg-white text-gray-700 px-5 py-3 rounded-xl font-semibold whitespace-nowrap shadow-sm">Makanan</button>
-                    <button class="category-btn bg-white text-gray-700 px-5 py-3 rounded-xl font-semibold whitespace-nowrap shadow-sm">Minuman</button>
-                    <button class="category-btn bg-white text-gray-700 px-5 py-3 rounded-xl font-semibold whitespace-nowrap shadow-sm">Snack</button>
-                    <button class="category-btn bg-white text-gray-700 px-5 py-3 rounded-xl font-semibold whitespace-nowrap shadow-sm">Kebutuhan Rumah</button>
-                </div>
-            </div>
-        </div>
-
-        <!-- Grid Produk -->
-        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-8">
-            @forelse($products as $product)
-                <div class="product-card group">
-                    <!-- Badge Stok -->
-                    <div class="stock-badge 
-                        @if($product->stock > 10) bg-green-500 text-white
-                        @elseif($product->stock > 0) bg-yellow-500 text-white
-                        @else bg-red-500 text-white @endif">
-                        @if($product->stock > 10) Tersedia
-                        @elseif($product->stock > 0) Terbatas
-                        @else Habis @endif
+                <div class="flex flex-col sm:flex-row space-y-3 sm:space-y-0 sm:space-x-4">
+                    <!-- Search -->
+                    <div class="search-box rounded-lg">
+                        <div class="relative">
+                            <i class="fas fa-search absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
+                            <input type="text" placeholder="Cari produk..." class="w-full sm:w-64 pl-10 pr-4 py-3 bg-transparent focus:outline-none text-gray-700 placeholder-gray-500">
+                        </div>
                     </div>
                     
-                    <!-- Gambar Produk -->
-                    <div class="h-56 bg-gradient-to-br from-gray-100 to-gray-200 flex items-center justify-center overflow-hidden relative">
-                        @if($product->image)
-                            <img src="{{ asset('storage/' . $product->image) }}" alt="{{ $product->name }}" class="w-full h-full object-cover product-image">
-                        @else
-                            <div class="text-center p-4 text-gray-400">
-                                <i class="fas fa-image text-6xl mb-3"></i>
-                                <p class="text-sm">Tidak ada gambar</p>
-                            </div>
-                        @endif
+                    <!-- Categories -->
+                    <div class="flex space-x-2 overflow-x-auto">
+                        <button class="category-btn active px-4 py-2 rounded-lg text-sm font-medium whitespace-nowrap">Semua</button>
+                        <button class="category-btn px-4 py-2 rounded-lg text-sm font-medium whitespace-nowrap">Makanan</button>
+                        <button class="category-btn px-4 py-2 rounded-lg text-sm font-medium whitespace-nowrap">Minuman</button>
+                        <button class="category-btn px-4 py-2 rounded-lg text-sm font-medium whitespace-nowrap">Snack</button>
                     </div>
+                </div>
+            </div>
 
-                    <!-- Detail Produk -->
-                    <div class="p-6 flex flex-col flex-grow">
-                        <div class="flex-grow">
-                            <h3 class="text-lg font-bold text-gray-900 mb-2 leading-tight line-clamp-2 group-hover:text-blue-600 transition-colors">{{ $product->name }}</h3>
-                            <p class="price-tag text-2xl font-extrabold mb-4">
-                                Rp {{ number_format($product->price, 0, ',', '.') }}
-                            </p>
-                            <div class="flex items-center text-sm text-gray-500 mb-4 bg-gray-50 p-3 rounded-xl">
-                                <i class="fas fa-box mr-3 text-gray-400"></i> 
-                                <span class="text-gray-700 font-semibold">{{ $product->stock }}</span>
-                                <span class="ml-1">stok tersisa</span>
+            <!-- Products Grid -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+                @forelse($products as $product)
+                    <div class="product-card rounded-xl overflow-hidden">
+                        <!-- Product Image -->
+                        <div class="relative h-48 bg-gray-100 overflow-hidden">
+                            @if($product->image)
+                                <img src="{{ asset('storage/' . $product->image) }}" alt="{{ $product->name }}" class="w-full h-full object-cover">
+                            @else
+                                <div class="w-full h-full flex items-center justify-center text-gray-400">
+                                    <i class="fas fa-image text-4xl"></i>
+                                </div>
+                            @endif
+                            
+                            <!-- Stock Badge -->
+                            <div class="absolute top-3 left-3">
+                                @if($product->stock > 10)
+                                    <span class="stock-high bg-green-50 text-green-700 px-2 py-1 rounded-full text-xs font-medium">Tersedia</span>
+                                @elseif($product->stock > 0)
+                                    <span class="stock-medium bg-yellow-50 text-yellow-700 px-2 py-1 rounded-full text-xs font-medium">Terbatas</span>
+                                @else
+                                    <span class="stock-low bg-red-50 text-red-700 px-2 py-1 rounded-full text-xs font-medium">Habis</span>
+                                @endif
                             </div>
                         </div>
 
-                        <!-- Tombol Aksi -->
-                        <div class="mt-auto">
+                        <!-- Product Info -->
+                        <div class="p-4">
+                            <h3 class="font-semibold text-gray-900 mb-2 line-clamp-2">{{ $product->name }}</h3>
+                            <p class="price text-xl font-bold mb-3">Rp {{ number_format($product->price, 0, ',', '.') }}</p>
+                            
+                            <div class="flex items-center justify-between text-sm text-gray-600 mb-4">
+                                <div class="flex items-center space-x-1">
+                                    <i class="fas fa-box"></i>
+                                    <span>{{ $product->stock }} stok tersisa</span>
+                                </div>
+                            </div>
+
+                            <!-- Action Button -->
                             @if($product->stock > 0)
-                                <form action="{{ route('cart.add', $product->id) }}" method="POST" class="add-to-cart-form">
+                                <form action="{{ route('cart.add', $product->id) }}" method="POST">
                                     @csrf
-                                    <button type="submit" class="w-full bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white py-4 px-6 rounded-xl transition-all duration-300 flex items-center justify-center gap-3 font-semibold shadow-lg hover:shadow-xl active:scale-95">
-                                        <i class="fas fa-cart-plus"></i> 
+                                    <button type="submit" class="btn-primary w-full py-3 rounded-lg font-medium flex items-center justify-center space-x-2">
+                                        <i class="fas fa-cart-plus"></i>
                                         <span>Tambah ke Keranjang</span>
                                     </button>
                                 </form>
                             @else
-                                <button disabled class="w-full bg-gray-100 text-gray-400 py-4 px-6 rounded-xl cursor-not-allowed font-semibold border-2 border-gray-200 flex items-center justify-center">
-                                    <i class="fas fa-ban mr-2"></i> Stok Habis
+                                <button disabled class="w-full py-3 rounded-lg font-medium bg-gray-100 text-gray-400 border border-gray-200 flex items-center justify-center space-x-2">
+                                    <i class="fas fa-ban"></i>
+                                    <span>Stok Habis</span>
                                 </button>
                             @endif
                         </div>
                     </div>
-                </div>
-            @empty
-                <!-- State Kosong -->
-                <div class="col-span-full flex flex-col items-center justify-center py-20 text-center empty-state rounded-3xl">
-                    <div class="bg-gradient-to-br from-gray-100 to-gray-200 rounded-full p-10 mb-8 shadow-inner">
-                        <i class="fas fa-search text-6xl text-gray-400"></i>
+                @empty
+                    <!-- Empty State -->
+                    <div class="col-span-full empty-state rounded-2xl p-12 text-center">
+                        <div class="w-20 h-20 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                            <i class="fas fa-search text-gray-400 text-2xl"></i>
+                        </div>
+                        <h3 class="text-xl font-semibold text-gray-900 mb-2">Belum ada produk</h3>
+                        <p class="text-gray-600 mb-6">Silakan login sebagai admin untuk menambahkan produk.</p>
+                        @guest
+                            <a href="{{ route('kasir.login') }}" class="btn-primary inline-flex items-center space-x-2 px-6 py-3 rounded-lg">
+                                <i class="fas fa-sign-in-alt"></i>
+                                <span>Login Admin</span>
+                            </a>
+                        @endguest
                     </div>
-                    <h3 class="text-3xl font-bold text-gray-600 mb-4">Belum ada produk yang dijual</h3>
-                    <p class="text-gray-500 text-lg max-w-md mb-8">Silakan login sebagai admin untuk menambahkan produk ke katalog.</p>
-                    @guest
-                        <a href="{{ route('kasir.login') }}" class="bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white py-4 px-8 rounded-xl transition-all duration-300 font-semibold inline-flex items-center gap-3 shadow-lg hover:shadow-xl">
-                            <i class="fas fa-sign-in-alt"></i> 
-                            <span>Login sebagai Admin</span>
-                        </a>
-                    @endguest
-                </div>
-            @endforelse
-        </div>
-        
-        <!-- Pagination -->
-        @if($products->count() > 0)
-            <div class="mt-16 flex justify-center">
-                <nav class="flex items-center gap-2 bg-white p-2 rounded-2xl shadow-lg">
-                    <a href="#" class="px-5 py-3 text-gray-500 bg-white rounded-xl hover:bg-gray-50 transition-colors">
-                        <i class="fas fa-chevron-left"></i>
-                    </a>
-                    <a href="#" class="px-5 py-3 text-white bg-gradient-to-r from-blue-600 to-blue-700 rounded-xl font-semibold shadow-md">1</a>
-                    <a href="#" class="px-5 py-3 text-gray-700 bg-white rounded-xl hover:bg-gray-50 transition-colors font-semibold">2</a>
-                    <a href="#" class="px-5 py-3 text-gray-700 bg-white rounded-xl hover:bg-gray-50 transition-colors font-semibold">3</a>
-                    <span class="px-2 text-gray-400">...</span>
-                    <a href="#" class="px-5 py-3 text-gray-700 bg-white rounded-xl hover:bg-gray-50 transition-colors font-semibold">10</a>
-                    <a href="#" class="px-5 py-3 text-gray-500 bg-white rounded-xl hover:bg-gray-50 transition-colors">
-                        <i class="fas fa-chevron-right"></i>
-                    </a>
-                </nav>
+                @endforelse
             </div>
-        @endif
+
+            <!-- Pagination -->
+            @if($products->count() > 0)
+                <div class="flex justify-center mt-12">
+                    <div class="flex space-x-2">
+                        <button class="pagination-btn w-10 h-10 rounded-lg flex items-center justify-center">
+                            <i class="fas fa-chevron-left text-sm"></i>
+                        </button>
+                        <button class="pagination-btn active w-10 h-10 rounded-lg flex items-center justify-center">1</button>
+                        <button class="pagination-btn w-10 h-10 rounded-lg flex items-center justify-center">2</button>
+                        <button class="pagination-btn w-10 h-10 rounded-lg flex items-center justify-center">3</button>
+                        <button class="pagination-btn w-10 h-10 rounded-lg flex items-center justify-center">
+                            <i class="fas fa-chevron-right text-sm"></i>
+                        </button>
+                    </div>
+                </div>
+            @endif
+        </div>
     </main>
 
-    <!-- Tombol Keranjang Sticky untuk Mobile -->
+    <!-- Sticky Cart for Mobile -->
     @if(session('cart') && count(session('cart')) > 0)
-        <div class="sticky-cart md:hidden">
-            <a href="{{ route('cart.index') }}" class="bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white py-4 px-8 rounded-full shadow-2xl flex items-center gap-3 font-bold transition-all duration-300 hover:scale-105">
+        <div class="sticky-cart fixed bottom-0 left-0 right-0 p-4 lg:hidden">
+            <a href="{{ route('cart.index') }}" class="btn-secondary w-full py-4 rounded-xl font-semibold flex items-center justify-center space-x-3">
                 <i class="fas fa-shopping-cart"></i>
                 <span>Lihat Keranjang ({{ count(session('cart')) }})</span>
                 <i class="fas fa-arrow-right"></i>
@@ -473,31 +411,31 @@
     @endif
 
     <!-- Footer -->
-    <footer class="footer-gradient text-white footer-wave mt-20">
-        <div class="container mx-auto px-4 py-16">
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-                <!-- Brand -->
-                <div class="lg:col-span-2">
-                    <div class="flex items-center gap-4 mb-6">
-                        <div class="bg-white/10 p-3 rounded-2xl">
-                            <i class="fas fa-store text-2xl text-white"></i>
+    <footer class="footer text-white mt-20">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <!-- Company Info -->
+                <div class="md:col-span-2">
+                    <div class="flex items-center space-x-3 mb-4">
+                        <div class="w-10 h-10 bg-white rounded-lg flex items-center justify-center">
+                            <i class="fas fa-store text-gray-900"></i>
                         </div>
                         <div>
-                            <h3 class="text-2xl font-bold">Warung Bu Ica</h3>
-                            <p class="text-blue-200 mt-1">Solusi belanja kebutuhan sehari-hari</p>
+                            <h3 class="text-xl font-bold">Warung Bu Ica</h3>
+                            <p class="text-gray-400 text-sm">Belanja praktis & terjangkau</p>
                         </div>
                     </div>
-                    <p class="text-blue-200 mb-6 max-w-md">
+                    <p class="text-gray-400 mb-6 max-w-md">
                         Menyediakan berbagai kebutuhan harian dengan kualitas terbaik dan harga terjangkau sejak 2010.
                     </p>
-                    <div class="flex gap-4">
-                        <a href="#" class="bg-white/10 hover:bg-white/20 p-3 rounded-xl transition-all duration-300">
+                    <div class="flex space-x-4">
+                        <a href="#" class="w-10 h-10 bg-gray-700 rounded-lg flex items-center justify-center hover:bg-gray-600 transition-colors">
                             <i class="fab fa-whatsapp"></i>
                         </a>
-                        <a href="#" class="bg-white/10 hover:bg-white/20 p-3 rounded-xl transition-all duration-300">
+                        <a href="#" class="w-10 h-10 bg-gray-700 rounded-lg flex items-center justify-center hover:bg-gray-600 transition-colors">
                             <i class="fab fa-instagram"></i>
                         </a>
-                        <a href="#" class="bg-white/10 hover:bg-white/20 p-3 rounded-xl transition-all duration-300">
+                        <a href="#" class="w-10 h-10 bg-gray-700 rounded-lg flex items-center justify-center hover:bg-gray-600 transition-colors">
                             <i class="fab fa-facebook"></i>
                         </a>
                     </div>
@@ -505,173 +443,88 @@
 
                 <!-- Links -->
                 <div>
-                    <h4 class="text-lg font-semibold mb-6">Tautan Cepat</h4>
+                    <h4 class="font-semibold mb-4">Tautan Cepat</h4>
                     <ul class="space-y-3">
-                        <li><a href="#" class="text-blue-200 hover:text-white transition-colors flex items-center gap-2"><i class="fas fa-chevron-right text-xs"></i> Tentang Kami</a></li>
-                        <li><a href="#" class="text-blue-200 hover:text-white transition-colors flex items-center gap-2"><i class="fas fa-chevron-right text-xs"></i> Katalog Produk</a></li>
-                        <li><a href="#" class="text-blue-200 hover:text-white transition-colors flex items-center gap-2"><i class="fas fa-chevron-right text-xs"></i> Promo</a></li>
-                        <li><a href="#" class="text-blue-200 hover:text-white transition-colors flex items-center gap-2"><i class="fas fa-chevron-right text-xs"></i> Kontak</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition-colors">Tentang Kami</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition-colors">Katalog Produk</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition-colors">Promo</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition-colors">Kontak</a></li>
                     </ul>
                 </div>
 
-                <!-- Kontak -->
+                <!-- Contact -->
                 <div>
-                    <h4 class="text-lg font-semibold mb-6">Hubungi Kami</h4>
-                    <div class="space-y-4">
-                        <div class="flex items-center gap-3 text-blue-200">
-                            <i class="fas fa-map-marker-alt"></i>
-                            <span>Jl. Merdeka No. 123, Jakarta</span>
+                    <h4 class="font-semibold mb-4">Kontak</h4>
+                    <div class="space-y-3 text-gray-400">
+                        <div class="flex items-center space-x-3">
+                            <i class="fas fa-map-marker-alt w-5"></i>
+                            <span>Jl. Contoh No. 123, Jakarta</span>
                         </div>
-                        <div class="flex items-center gap-3 text-blue-200">
-                            <i class="fas fa-phone"></i>
+                        <div class="flex items-center space-x-3">
+                            <i class="fas fa-phone w-5"></i>
                             <span>(021) 1234-5678</span>
                         </div>
-                        <div class="flex items-center gap-3 text-blue-200">
-                            <i class="fas fa-envelope"></i>
+                        <div class="flex items-center space-x-3">
+                            <i class="fas fa-envelope w-5"></i>
                             <span>info@warungbuica.com</span>
-                        </div>
-                        <div class="flex items-center gap-3 text-blue-200">
-                            <i class="fas fa-clock"></i>
-                            <span>Buka Setiap Hari 06:00 - 22:00</span>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <div class="border-t border-blue-800/50 mt-12 pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
-                <div class="text-blue-300 text-sm">
+            <div class="border-t border-gray-700 mt-8 pt-8 flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
+                <p class="text-gray-400 text-sm">
                     &copy; {{ date('Y') }} Warung Bu Ica. All rights reserved.
-                </div>
-                <div class="flex items-center gap-2 text-blue-300 text-sm">
+                </p>
+                <p class="text-gray-400 text-sm flex items-center space-x-2">
                     <span>Dibuat dengan</span>
                     <i class="fas fa-heart text-red-400"></i>
                     <span>dan Laravel</span>
-                </div>
+                </p>
             </div>
         </div>
     </footer>
 
-    <!-- JavaScript untuk Interaktivitas -->
     <script>
-        // Fungsi pencarian produk
-        document.getElementById('searchInput').addEventListener('input', function() {
-            const searchTerm = this.value.toLowerCase().trim();
+        // Simple search functionality
+        document.querySelector('input[type="text"]').addEventListener('input', function(e) {
+            const searchTerm = e.target.value.toLowerCase();
             const products = document.querySelectorAll('.product-card');
-            let visibleCount = 0;
             
             products.forEach(product => {
                 const productName = product.querySelector('h3').textContent.toLowerCase();
-                if (productName.includes(searchTerm) || searchTerm === '') {
+                if (productName.includes(searchTerm)) {
                     product.style.display = 'block';
-                    visibleCount++;
                 } else {
                     product.style.display = 'none';
                 }
             });
-            
-            // Tampilkan pesan jika tidak ada hasil
-            const emptyState = document.querySelector('.empty-state');
-            if (visibleCount === 0 && searchTerm !== '') {
-                if (!emptyState) {
-                    const grid = document.querySelector('.grid');
-                    const noResults = document.createElement('div');
-                    noResults.className = 'col-span-full flex flex-col items-center justify-center py-20 text-center empty-state rounded-3xl';
-                    noResults.innerHTML = `
-                        <div class="bg-gradient-to-br from-gray-100 to-gray-200 rounded-full p-10 mb-8 shadow-inner">
-                            <i class="fas fa-search text-6xl text-gray-400"></i>
-                        </div>
-                        <h3 class="text-3xl font-bold text-gray-600 mb-4">Produk tidak ditemukan</h3>
-                        <p class="text-gray-500 text-lg max-w-md">Coba gunakan kata kunci lain atau lihat kategori yang tersedia.</p>
-                    `;
-                    grid.appendChild(noResults);
-                }
-            } else if (emptyState && searchTerm === '') {
-                emptyState.remove();
-            }
         });
-        
-        // Fungsi filter kategori
-        document.querySelectorAll('.category-btn').forEach(button => {
-            button.addEventListener('click', function() {
-                // Hapus kelas active dari semua tombol
-                document.querySelectorAll('.category-btn').forEach(btn => {
-                    btn.classList.remove('active', 'text-white');
-                    btn.classList.add('bg-white', 'text-gray-700');
-                });
-                
-                // Tambahkan kelas active ke tombol yang diklik
-                this.classList.remove('bg-white', 'text-gray-700');
-                this.classList.add('active', 'text-white');
-                
-                // Simulasi filter (dalam implementasi nyata, ini akan request ke server)
-                const category = this.textContent.trim();
-                showNotification(`Menampilkan kategori: ${category}`);
+
+        // Category filter
+        document.querySelectorAll('.category-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                document.querySelectorAll('.category-btn').forEach(b => b.classList.remove('active'));
+                this.classList.add('active');
             });
         });
-        
-        // Animasi saat produk ditambahkan ke keranjang
-        document.querySelectorAll('.add-to-cart-form').forEach(form => {
+
+        // Add to cart animation
+        document.querySelectorAll('form').forEach(form => {
             form.addEventListener('submit', function(e) {
-                e.preventDefault();
                 const button = this.querySelector('button');
                 const originalText = button.innerHTML;
                 
-                // Animasi loading
-                button.innerHTML = '<i class="fas fa-spinner loading-spinner"></i> Menambahkan...';
+                button.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Menambahkan...';
                 button.disabled = true;
                 
-                // Simulasi request
                 setTimeout(() => {
                     button.innerHTML = '<i class="fas fa-check"></i> Ditambahkan!';
-                    button.style.background = 'linear-gradient(135deg, #10b981 0%, #059669 100%)';
-                    
-                    // Tampilkan notifikasi
-                    showNotification('Produk berhasil ditambahkan ke keranjang!');
-                    
-                    // Reset setelah 2 detik
                     setTimeout(() => {
                         button.innerHTML = originalText;
                         button.disabled = false;
-                        button.style.background = '';
-                    }, 2000);
-                }, 1000);
-            });
-        });
-        
-        // Fungsi untuk menampilkan notifikasi
-        function showNotification(message, type = 'success') {
-            const toast = document.createElement('div');
-            toast.className = `notification-toast p-4 rounded-xl shadow-2xl max-w-sm ${
-                type === 'success' ? 'bg-green-500 text-white' : 'bg-red-500 text-white'
-            }`;
-            toast.innerHTML = `
-                <div class="flex items-center gap-3">
-                    <i class="fas fa-${type === 'success' ? 'check' : 'exclamation'}-circle text-xl"></i>
-                    <div>
-                        <p class="font-semibold">${type === 'success' ? 'Berhasil!' : 'Error!'}</p>
-                        <p class="text-sm opacity-90">${message}</p>
-                    </div>
-                </div>
-            `;
-            
-            document.body.appendChild(toast);
-            
-            // Hapus notifikasi setelah 3 detik
-            setTimeout(() => {
-                toast.remove();
-            }, 3000);
-        }
-        
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                const target = document.querySelector(this.getAttribute('href'));
-                if (target) {
-                    target.scrollIntoView({
-                        behavior: 'smooth',
-                        block: 'start'
-                    });
-                }
+                    }, 1500);
+                }, 800);
             });
         });
     </script>

@@ -3,42 +3,38 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\FinancialRecordResource\Pages;
-use App\Filament\Resources\FinancialRecordResource\RelationManagers;
 use App\Models\FinancialRecord;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
-
-// --- IMPORT KOMPONEN (PENTING) ---
-use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\Textarea;
-use Filament\Forms\Components\Hidden;
 use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Filters\SelectFilter;
 
 class FinancialRecordResource extends Resource
 {
     protected static ?string $model = FinancialRecord::class;
 
-    // Ganti icon agar sesuai konteks keuangan
+    // Ganti Icon Duit/Keuangan
     protected static ?string $navigationIcon = 'heroicon-o-banknotes';
-    
     protected static ?string $navigationLabel = 'Laporan Keuangan';
 
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
+                // 1. TANGGAL
                 DatePicker::make('date')
                     ->label('Tanggal')
                     ->required()
                     ->default(now()),
 
+                // 2. TIPE (Pemasukan / Pengeluaran)
                 Select::make('type')
                     ->label('Jenis Transaksi')
                     ->options([
@@ -48,20 +44,25 @@ class FinancialRecordResource extends Resource
                     ->required()
                     ->native(false),
 
+                // 3. NOMINAL
                 TextInput::make('amount')
                     ->label('Nominal')
                     ->numeric()
                     ->prefix('Rp')
                     ->required(),
 
+                // 4. USER (Otomatis pengisi)
+                Select::make('user_id')
+                    ->relationship('user', 'name')
+                    ->label('Dicatat Oleh')
+                    ->default(auth()->id())
+                    ->required(),
+
+                // 5. KETERANGAN
                 Textarea::make('description')
                     ->label('Keterangan')
+                    ->required()
                     ->columnSpanFull(),
-
-                // Field User ID kita sembunyikan (Hidden) 
-                // dan otomatis diisi dengan ID user yang sedang login
-                Hidden::make('user_id')
-                    ->default(auth()->id()),
             ]);
     }
 
@@ -69,14 +70,16 @@ class FinancialRecordResource extends Resource
     {
         return $table
             ->columns([
+                // Kolom Tanggal
                 TextColumn::make('date')
-                    ->date()
-                    ->sortable()
-                    ->label('Tanggal'),
+                    ->date('d M Y')
+                    ->label('Tanggal')
+                    ->sortable(),
 
+                // Kolom Tipe (Badge Warna)
                 TextColumn::make('type')
-                    ->label('Jenis')
                     ->badge()
+                    ->label('Jenis')
                     ->color(fn (string $state): string => match ($state) {
                         'income' => 'success', // Hijau
                         'expense' => 'danger', // Merah
@@ -86,21 +89,31 @@ class FinancialRecordResource extends Resource
                         'expense' => 'Pengeluaran',
                     }),
 
+                // Kolom Nominal
                 TextColumn::make('amount')
                     ->money('IDR')
-                    ->sortable()
-                    ->label('Nominal'),
-
-                TextColumn::make('description')
-                    ->limit(30)
-                    ->label('Keterangan'),
-
-                TextColumn::make('user.name')
-                    ->label('Dicatat Oleh')
+                    ->label('Nominal')
                     ->sortable(),
+
+                // Kolom Keterangan
+                TextColumn::make('description')
+                    ->label('Keterangan')
+                    ->limit(30)
+                    ->searchable(),
+
+                // Kolom User
+                TextColumn::make('user.name')
+                    ->label('Oleh'),
             ])
+            ->defaultSort('date', 'desc')
             ->filters([
-                // Anda bisa menambahkan filter berdasarkan tipe (Pemasukan/Pengeluaran) disini nanti
+                // Filter berdasarkan jenis (Income/Expense)
+                SelectFilter::make('type')
+                    ->label('Jenis')
+                    ->options([
+                        'income' => 'Pemasukan',
+                        'expense' => 'Pengeluaran',
+                    ]),
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
@@ -110,8 +123,7 @@ class FinancialRecordResource extends Resource
                 Tables\Actions\BulkActionGroup::make([
                     Tables\Actions\DeleteBulkAction::make(),
                 ]),
-            ])
-            ->defaultSort('date', 'desc'); // Urutkan dari tanggal terbaru
+            ]);
     }
 
     public static function getPages(): array
