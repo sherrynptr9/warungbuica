@@ -8,47 +8,47 @@ use App\Models\User;
 class FinancialRecordPolicy
 {
     /**
-     * Siapa yang boleh melihat daftar laporan di sidebar?
-     * HANYA ADMIN.
+     * Siapa yang boleh melihat menu Laporan Keuangan di sidebar?
+     * return true = SEMUA ROLE (Admin & Kasir) boleh.
      */
     public function viewAny(User $user): bool
     {
-        return $user->role === 'admin';
+        return true;
     }
 
     /**
-     * Siapa yang boleh melihat detail satu laporan?
-     * HANYA ADMIN.
+     * Siapa yang boleh melihat detail laporan?
+     * return true = SEMUA ROLE boleh.
      */
     public function view(User $user, FinancialRecord $financialRecord): bool
     {
-        return $user->role === 'admin';
+        return true;
     }
 
     /**
-     * Siapa yang boleh mencatat laporan baru?
-     * HANYA ADMIN.
+     * Siapa yang boleh menambah laporan baru?
+     * return true = SEMUA ROLE boleh.
      */
     public function create(User $user): bool
     {
-        return $user->role === 'admin';
+        return true;
     }
 
     /**
-     * Siapa yang boleh mengedit laporan?
-     * HANYA ADMIN.
+     * Siapa yang boleh MENGEDIT laporan?
+     * return false = TIDAK ADA yang boleh (Data aman/dikunci).
      */
     public function update(User $user, FinancialRecord $financialRecord): bool
     {
-        return $user->role === 'admin';
+        return false;
     }
 
     /**
-     * Siapa yang boleh menghapus laporan?
-     * HANYA ADMIN.
+     * Siapa yang boleh MENGHAPUS laporan?
+     * return false = TIDAK ADA yang boleh.
      */
     public function delete(User $user, FinancialRecord $financialRecord): bool
     {
-        return $user->role === 'admin';
+        return false;
     }
 }
