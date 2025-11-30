@@ -22,6 +22,7 @@ Route::middleware('auth')->group(function () {
     // --- PERBAIKAN DISINI ---
     // Ubah dari 'post' menjadi 'get'
     Route::post('/cart/add/{id}', [FrontendTransactionController::class, 'addToCart'])->name('cart.add');
+    Route::get('/cart/add/{id}', [FrontendTransactionController::class, 'addToCart'])->name('cart.add');
     // ------------------------
 
     Route::get('/cart/decrease/{id}', [FrontendTransactionController::class, 'decreaseQuantity'])->name('cart.decrease');
